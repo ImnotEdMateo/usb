@@ -1,9 +1,12 @@
 package handlers
 
 import (
-  "net/http"
+	"net/http"
+	"path/filepath"
 )
 
+var staticPath = filepath.Join("static", "index.html")
+
 func WebPageHandler(w http.ResponseWriter, r *http.Request) {
-  http.ServeFile(w , r, "../static/index.html")
+	http.ServeFile(w, r, staticPath)
 }
