@@ -4,7 +4,20 @@ body {
 }
 
 h1, p, span {
-  margin-top: 65px;
-  margin-bottom: 65px;
+  margin: 65px 0;
   text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  body {
+    font-size: medium;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1, p, span {
+    margin: 55px 0;
+  }
 }
