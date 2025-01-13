@@ -3,7 +3,7 @@ body {
 
 }
 
-h1, p {
+h1, p, span {
   margin-top: 65px;
   margin-bottom: 65px;
   text-align: center;
