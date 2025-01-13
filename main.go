@@ -1,13 +1,14 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
 	"net/http"
-  "github.com/imnotedmateo/ubs/handlers"
+	"log"
+	"github.com/imnotedmateo/ubs/handlers"
 )
 
 func main() {
-  fmt.Println("Iniciando la aplicación...")
+	fmt.Println("Iniciando la aplicación...")
 
 	// Sirve archivos estáticos
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
@@ -15,7 +16,10 @@ func main() {
 	http.HandleFunc("/", handlers.FileOrPageHandler)
 	http.HandleFunc("/upload", handlers.UploadHandler)
 
-  fmt.Println("Aplicación ejecutada correctamente")
+	fmt.Println("Aplicación ejecutada correctamente")
 
-	http.ListenAndServe(":1488", nil)
+	// Escuchar y servir el servidor con manejo de errores
+	if err := http.ListenAndServe(":1488", nil); err != nil {
+		log.Fatalf("Error al iniciar el servidor: %v", err)
+	}
 }
