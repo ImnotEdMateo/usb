@@ -11,7 +11,7 @@ import (
 	"github.com/imnotedmateo/ubs/utils"
 )
 
-const maxFileSize = 1 << 20
+const maxFileSize = 1 << 30
 
 func handleError(w http.ResponseWriter, r *http.Request, errMsg string) {
 	fmt.Println("Error:", errMsg) 
