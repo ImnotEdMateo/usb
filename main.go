@@ -12,5 +12,5 @@ func main() {
 	http.HandleFunc("/", handlers.FileOrPageHandler)
 	http.HandleFunc("/upload", handlers.UploadHandler)
 
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":1488", nil)
 }

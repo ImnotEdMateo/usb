@@ -5,8 +5,7 @@ import (
 	"path/filepath"
 )
 
-var staticPath = filepath.Join("static", "index.html")
-
 func WebPageHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, staticPath)
+	absPath, _ := filepath.Abs(filepath.Join("static", "index.html"))
+	http.ServeFile(w, r, absPath)
 }
