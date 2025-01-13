@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
   "os"
 	"io"
   "time"
@@ -9,62 +8,69 @@ import (
 	"path/filepath"
 
 	"github.com/imnotedmateo/ubs/utils"
+	"github.com/imnotedmateo/ubs/config"
 )
-
-const maxFileSize = 1 << 30
-
-func handleError(w http.ResponseWriter, r *http.Request, errMsg string) {
-	fmt.Println("Error:", errMsg) 
-	utils.ExtremelySeriousErrorResponse(w, r, fmt.Errorf(errMsg))
-}
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		handleError(w, r, "Method Not Allowed")
+		utils.HandleError(w, r, "Method not Allowed")
 		return
 	}
-  
-  // Get the file from the form
+
+  // Gets the file from the form
 	file, header, err := r.FormFile("file")
 	if err != nil {
-    handleError(w, r, "Error getting the file from the form")
+		utils.HandleError(w, r, "Error retrieving file from the form")
 		return
 	}
 	defer file.Close()
 
-  // Checks if the file is to large
-	if header.Size > maxFileSize {
-    handleError(w, r, "The file exceeds the maximum allowed size")
-		return
-	}
-
-  // Create unique file Route
-  uniquePath, err := utils.GenerateRandomPath()
+ 	// Temporarily saves the file in the system
+	tempFile, err := os.CreateTemp("", "upload-*")
 	if err != nil {
-		http.Error(w, "Error ", http.StatusInternalServerError)
+		utils.HandleError(w, r, "Error creating temporary file")
+		return
+	}
+	defer os.Remove(tempFile.Name())
+  defer tempFile.Close()
+	
+  if _, err := io.Copy(tempFile, file); err != nil {
+		utils.HandleError(w, r, "Error saving temporary file")
 		return
 	}
 
-	// Create temporal file Route
+	// Validates the file
+	if err := utils.ValidateFile(tempFile, header.Filename, config.MaxFileSize); err != nil {
+		utils.HandleError(w, r, err.Error())
+		return
+	}
+
+  // Generates a unique path for the file
+	uniquePath, err := utils.GenerateRandomPath()
+	if err != nil {
+		utils.HandleError(w, r, "Error generating final file")
+		return
+	}
+
+ 	// Creates the final file in the "uploads/" dir
 	uploadPath := filepath.Join("uploads", uniquePath)
 	dest, err := os.Create(uploadPath)
 	if err != nil {
-		http.Error(w, "Error creating Route", http.StatusInternalServerError)
+		utils.HandleError(w, r, "Error creating final file, maybe uploads does not exist.")
 		return
 	}
 	defer dest.Close()
 
-  // Copy to /uploads/ dir
-	_, err = io.Copy(dest, file)
-	if err != nil {
-    handleError(w, r, "Error saving the file")
+ 	// Copies the content of the temporary file to the final file
+	if _, err := io.Copy(dest, tempFile); err != nil {
+		utils.HandleError(w, r, "Error saving final file")
 		return
 	}
 
-  // Automatic deletion after one hour
-	time.AfterFunc(1*time.Hour, func() {
+ 	// Schedules automatic deletion
+	time.AfterFunc(config.FileExpirationTime, func() {
 		os.Remove(uploadPath)
 	})
 
-  http.Redirect(w, r, "/"+uniquePath, http.StatusSeeOther)
+	http.Redirect(w, r, "/"+uniquePath, http.StatusSeeOther)
 }

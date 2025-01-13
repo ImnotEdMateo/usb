@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+  "log"
 	"net/http"
-	"log"
+
 	"github.com/imnotedmateo/ubs/handlers"
 )
 
 func main() {
-	fmt.Println("Iniciando la aplicación...")
+	fmt.Println("Running server...")
 
 	// Serve Static Files
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))

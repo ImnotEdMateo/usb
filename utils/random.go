@@ -6,12 +6,12 @@ import (
 )
 
 func GenerateRandomPath() (string, error) {
-	bytes := make([]byte, 2) // 2 bytes = 4 caracteres hexadecimales
+	bytes := make([]byte, 2)
 	_, err := rand.Read(bytes)
 	if err != nil {
 		return "", err
 	}
 
-	return hex.EncodeToString(bytes)[:3], nil
+  return hex.EncodeToString(bytes)[:3], nil
 }
 
