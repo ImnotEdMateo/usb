@@ -16,7 +16,7 @@ COPY --from=build /app/static /app/static
 COPY --from=build /app/utils /app/utils
 COPY --from=build /app/handlers /app/handlers
 COPY --from=build /app/config /app/config
-RUN mkdir /app/upload
+RUN mkdir /app/uploads
 
 # Expose the port specified by the environment variable
 EXPOSE ${UBS_PORT}
