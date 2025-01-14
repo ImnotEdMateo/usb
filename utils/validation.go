@@ -20,7 +20,7 @@ func ValidateFile(file *os.File, filename string, maxSize int64) error {
 
 	// Checks the file extension
 	ext := filepath.Ext(filename)
-	if ext == ".exe" || ext == ".sh" || ext == ".bat" {
+	if ext == ".exe" || ext == ".sh" || ext == ".bat" || ext == ".apk" {
 		return fmt.Errorf("file type not allowed")
 	}
 

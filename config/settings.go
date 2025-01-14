@@ -1,10 +1,6 @@
 package config
 
-import (
-  "os"
-  "time"
-)
-
+import "time"
 // DEFAULT CONFIG
 const MaxFileSize = 1 << 30 // 1 GB
 const FileExpirationTime = 1 * time.Hour // 1 Hour
