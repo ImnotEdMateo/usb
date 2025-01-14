@@ -25,6 +25,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
+  utils.LogUpload(r, header.Filename)
+
  	// Temporarily saves the file in the system
 	tempFile, err := os.CreateTemp("", "upload-*")
 	if err != nil {
