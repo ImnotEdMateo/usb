@@ -1,0 +1,10 @@
+services:
+  ubs:
+    image: ubs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${UBS_PORT}:${UBS_PORT}"
+    env_file:
+      - .env
