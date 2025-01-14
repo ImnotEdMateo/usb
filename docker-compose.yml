@@ -8,3 +8,4 @@ services:
       - "${UBS_PORT}:${UBS_PORT}"
     env_file:
       - .env
+    user: appuser:appgroup
