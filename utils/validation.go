@@ -3,8 +3,8 @@ package utils
 import (
 	"fmt"
 	"io"
-	"os"
 	"net/http"
+	"os"
 	"path/filepath"
 )
 

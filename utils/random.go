@@ -12,6 +12,5 @@ func GenerateRandomPath() (string, error) {
 		return "", err
 	}
 
-  return hex.EncodeToString(bytes)[:3], nil
+	return hex.EncodeToString(bytes)[:3], nil
 }
-
