@@ -56,7 +56,7 @@ The server will start on `http://localhost:1488` by default.
 
 ## TO DO
 
-[ ] Implement configurable themes from `config/settings.go`
+[] Implement configurable themes from `config/settings.go`
 
 ---
 
