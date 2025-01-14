@@ -1,6 +1,9 @@
 package config
 
-import "time"
+import (
+  "os"
+  "time"
+)
 
 // DEFAULT CONFIG
 const MaxFileSize = 1 << 30 // 1 GB
