@@ -29,7 +29,7 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
    ./ubs
    ```
 
-The server will start on `http://localhost:1488` by default.
+The server will start on `http://localhost:8000` by default.
 
 ## Configuration
 
@@ -39,7 +39,7 @@ The server will start on `http://localhost:1488` by default.
 
 ## Usage
 
-1. Access the uploader interface at `http://localhost:1488`.
+1. Access the uploader interface at `http://localhost:8000`.
 2. Select a file to upload and click "UPLOAD."
 3. After a successful upload, you'll be redirected to the unique route where the file can be downloaded.
 
