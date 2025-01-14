@@ -1,6 +1,9 @@
 # Build stage
 FROM golang:alpine AS build
 
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
 WORKDIR /app
 COPY . .
 RUN go build -o ubs .
@@ -17,14 +20,11 @@ COPY --from=build /app/static /app/static
 COPY --from=build /app/utils /app/utils
 COPY --from=build /app/handlers /app/handlers
 COPY --from=build /app/config /app/config
-RUN mkdir /app/uploads
+RUN mkdir /app/uploads && chown -R appuser:appgroup /app/uploads
 
 USER appuser
 
 # Expose the port specified by the environment variable
 EXPOSE ${UBS_PORT}
-
-# Set environment variable
-ENV UBS_PORT=8080
 
 CMD ["./ubs"]
