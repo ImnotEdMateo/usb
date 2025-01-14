@@ -15,7 +15,7 @@ func main() {
         log.Fatalf("PORT is not defined")
     }
 
-    fmt.Println("Running server...on", port)
+    fmt.Println("Running server on port ", port)
 
     // Serve Static Files
     http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
