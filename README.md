@@ -21,6 +21,7 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
 
 2. Build the application:
    ```bash
+   export UBS_PORT=[your_port]
    go build -o ubs
    ```
 
@@ -29,17 +30,16 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
    ./ubs
    ```
 
-The server will start on `http://localhost:8000` by default.
+The server will start on `http://localhost:[your_port]` by default.
 
 ## Configuration
 
-- **Port**: The server runs on port 1488 by default. You can change this by modifying the `ListenAndServe` call in `main.go`.
 - **Upload directory**: Files are stored in the `uploads/` directory. Make sure this directory exists and is writable by the server.
 - **File size limit and duration**: These can be configured in `config/settings.go`. Adjust the values as needed for your use case.
 
 ## Usage
 
-1. Access the uploader interface at `http://localhost:8000`.
+1. Access the uploader interface at `http://localhost:[your_port]`.
 2. Select a file to upload and click "UPLOAD."
 3. After a successful upload, you'll be redirected to the unique route where the file can be downloaded.
 
