@@ -8,4 +8,10 @@ services:
       - "${UBS_PORT}:${UBS_PORT}"
     env_file:
       - .env
-    user: appuser:appgroup
+    user: appuser:appgroup # Change with your username if needed or id
+
+    volumes:
+      - uploads-data:/app/uploads
+
+volumes:
+  uploads-data:
