@@ -12,6 +12,10 @@ RUN apk --no-cache add ca-certificates
 
 WORKDIR /app
 COPY --from=build /app/ubs .
+COPY --from=build /app/static /app/static
+COPY --from=build /app/utils /app/utils
+COPY --from=build /app/handlers /app/handlers
+COPY --from=build /app/config /app/config
 
 # Expose the port specified by the environment variable
 EXPOSE ${UBS_PORT}
