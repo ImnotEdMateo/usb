@@ -1,17 +1,17 @@
 package main
 
 import (
-  "os"
 	"fmt"
-  "log"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/imnotedmateo/ubs/handlers"
 )
 
 func main() {
- 	port := os.Getenv("UBS_PORT")
-  if port == "" {
+	port := os.Getenv("UBS_PORT")
+	if port == "" {
 		log.Fatalf("PORT is not defined")
 	}
 
@@ -23,7 +23,7 @@ func main() {
 	http.HandleFunc("/", handlers.FileOrPageHandler)
 	http.HandleFunc("/upload", handlers.UploadHandler)
 
- 	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("Error starting server: %v", err)
 	}
 }

@@ -1,10 +1,10 @@
 package handlers
 
 import (
-  "os"
-  "regexp"
 	"net/http"
+	"os"
 	"path/filepath"
+	"regexp"
 )
 
 func FileOrPageHandler(w http.ResponseWriter, r *http.Request) {
