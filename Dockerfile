@@ -21,4 +21,6 @@ USER appuser
 # Optional: Hardcode a default port
 EXPOSE 8080
 
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget --spider --quiet http://localhost:8080/ || exit 1
+
 CMD ["./ubs"]
