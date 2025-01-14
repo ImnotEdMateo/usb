@@ -1,23 +1,26 @@
 body {
   font-size: large;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
 }
 
 h1, p, span {
-  margin: 65px 0;
+  margin: 45px 0;
   text-align: center;
 }
 
 @media screen and (max-width: 600px) {
   body {
     font-size: medium;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-height: 100vh;
+    margin: 0 10px;
   }
 
   h1, p, span {
-    margin: 55px 0;
+    margin: 50px 0;
   }
 }
