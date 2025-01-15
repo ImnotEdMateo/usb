@@ -11,7 +11,7 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
 - **Secure uploads**: Blocks potentially dangerous file types (e.g., `.exe`, `.sh`, `.bat`).
 - **Easy to self-host**: 0 external dependencies, runs on HTTP.
 
-## Installation
+## Deployment
 
 ### Using Docker (Recommended)
 
@@ -23,7 +23,7 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
 
 2. Create or modify the `.env` file with the following content:
    ```bash
-   UBS_PORT=8080
+   UBS_PORT=[your_port]
    ```
 
 3. Build and start the container using `docker-compose`:
@@ -31,36 +31,10 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
    docker-compose up --build -d
    ```
 
-4. The application will be available at `http://0.0.0.0:8080`.  *The VPS'IP instead of 0.0.0.0*
+4. The application will be available at `[your_vps_ip]:<port>`. 
 
-
-## Running with Docker Compose
-
-The `docker-compose.yml` file simplifies deployment. Below is the configuration:
-
-```yaml
-services:
-  ubs:
-    image: ubs
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "${UBS_PORT}:${UBS_PORT}"
-    env_file:
-      - .env
-    user: appuser:appgroup
-    volumes:
-      - uploads-data:/app/uploads
-
-volumes:
-  uploads-data:
-```
-
-- **Environment Variables**: Defined in the `.env` file to specify the `UBS_PORT`.
-- **Volumes**: `uploads-data` ensures persistence for uploaded files even if the container is restarted.
-- **User**: Runs the container as `appuser` for security.
-
+> [!NOTE]  
+> To access the application directly from `[your_vps_ip]:<port>` in the Dockerfile, you will need to hardcode the port. If you'd prefer to avoid hardcoding, you can use a reverse proxy like Apache or Nginx to manage access to the port.
 
 ### Without Docker
 
@@ -81,7 +55,7 @@ volumes:
    ./ubs
    ```
 
-The server will start on `http://localhost:[your_port]` by default.
+The server will run on `http://[your_vps_ip]:<your_port>` by default.
 
 ## Configuration
 
