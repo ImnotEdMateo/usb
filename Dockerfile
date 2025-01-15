@@ -18,9 +18,9 @@ RUN mkdir /app/uploads && chown -R appuser:appgroup /app/uploads
 
 USER appuser
 
-# Optional: Hardcode a default port
-EXPOSE 8080
+# OPTIONAL: Hardcore a default port
+# EXPOSE 8080 
 
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget --spider --quiet http://localhost:8080/ || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget --spider --quiet http://localhost:${PORT:-8080}/ || exit 1
 
-CMD ["./ubs"]
+CMD ["/bin/sh", "-c", "./ubs --port ${PORT:-8080}"]

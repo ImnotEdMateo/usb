@@ -1,11 +1,11 @@
 services:
   ubs:
-    image: ubs
     build:
       context: .
       dockerfile: Dockerfile
+    image: ubs
     ports:
-      - "${UBS_PORT}:${UBS_PORT}"
+      - "127.0.0.1:${UBS_PORT}:${UBS_PORT}"
     env_file:
       - .env
     user: appuser:appgroup # Change with your username if needed or id
