@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -58,7 +59,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	uploadPath := filepath.Join("uploads", uniquePath)
 	dest, err := os.Create(uploadPath)
 	if err != nil {
-		utils.HandleError(w, r, "Error creating final file, maybe uploads does not exist.")
+		utils.HandleError(w, r, "Error creating final file, maybe uploads/ does not exist.")
 		return
 	}
 	defer dest.Close()
@@ -72,6 +73,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	// Schedules automatic deletion
 	time.AfterFunc(config.FileExpirationTime, func() {
 		os.Remove(uploadPath)
+    log.Printf("%s Deleted", uploadPath)
 	})
 
 	http.Redirect(w, r, "/"+uniquePath, http.StatusSeeOther)
