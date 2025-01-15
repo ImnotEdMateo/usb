@@ -81,7 +81,7 @@ The server will run on `http://[your_vps_ip]:<your_port>` by default.
 
 ## TO DO
 
-- [ ] Implement configurable themes from `config/settings.go`
+- [x] Implement configurable themes from `config/settings.go`
 - [ ] Optimize file validation logic.
 - [ ] Less shitty code
 

@@ -1,0 +1,37 @@
+:root {
+  --color-a: #000000;
+  --color-b: #6f0030;
+  --color-c: #ff2050;
+  --color-d: #eeeeee;
+}
+
+body {
+  background-color: var(--color-a);
+  color: var(--color-d);
+  font-size: large;
+ 	font-family: "ＭＳ Ｐゴシック", "MS PGothic", serif;
+}
+
+a, a:hover, a:visited, .initial {
+  color: var(--color-c)
+}
+
+h1 {
+  font-style: italic;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-b);
+}
+
+.form-shit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+form {
+  padding: 2rem;
+  display: flex;
+  border: 4px ridge var(--color-c);
+  font-family: "ＭＳ ゴシック", "MS Gothic", monospace;
+}
