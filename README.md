@@ -13,7 +13,28 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
 
 ## Deployment
 
-### Using Docker (Recommended)
+### Without Docker
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ImnotEdMateo/ubs.git
+   cd ubs
+   ```
+
+2. Build the application:
+   ```bash
+   export UBS_PORT=[your_port]
+   go build -o ubs
+   ```
+
+3. Run the server:
+   ```bash
+   ./ubs
+   ```
+
+The server will run on `http://[your_vps_ip]:<your_port>` by default.
+
+### Using Docker
 
 1. Clone the repository:
    ```bash
@@ -35,27 +56,6 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
 
 > [!NOTE]  
 > To access the application directly from `[your_vps_ip]:<port>` in the Dockerfile, you will need to hardcode the port. If you'd prefer to avoid hardcoding, you can use a reverse proxy like Apache or Nginx to manage access to the port.
-
-### Without Docker
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/ImnotEdMateo/ubs.git
-   cd ubs
-   ```
-
-2. Build the application:
-   ```bash
-   export UBS_PORT=[your_port]
-   go build -o ubs
-   ```
-
-3. Run the server:
-   ```bash
-   ./ubs
-   ```
-
-The server will run on `http://[your_vps_ip]:<your_port>` by default.
 
 ## Configuration
 
