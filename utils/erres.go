@@ -1,8 +1,8 @@
 package utils
 
 import (
-  "fmt"
-  "errors"
+	"errors"
+	"fmt"
 	"net/http"
 )
 
@@ -11,6 +11,6 @@ func ExtremelySeriousErrorResponse(w http.ResponseWriter, r *http.Request, err e
 }
 
 func HandleError(w http.ResponseWriter, r *http.Request, errMsg string) {
-	fmt.Println("Error:", errMsg) 
-  ExtremelySeriousErrorResponse(w, r, errors.New(errMsg))
+	fmt.Println("Error:", errMsg)
+	ExtremelySeriousErrorResponse(w, r, errors.New(errMsg))
 }
