@@ -8,11 +8,13 @@ import (
 	"path/filepath"
 )
 
-func ValidateFile(file *os.File, filename string, maxSize int64) error {
-	// Checks the file size
+func ValidateFile(file *os.File, filename string, maxSize int64, uploadDir string) error {
 	fileInfo, err := file.Stat()
 	if err != nil {
 		return err
+	}
+  if fileInfo.Size() == 0 {
+		return fmt.Errorf("File has nothing")
 	}
 	if fileInfo.Size() > maxSize {
 		return fmt.Errorf("file too large")
@@ -24,7 +26,7 @@ func ValidateFile(file *os.File, filename string, maxSize int64) error {
 		return fmt.Errorf("file type not allowed")
 	}
 
-	// Checks the actual MIME type by reading the content
+	// Checks the MIME type by reading the content
 	buffer := make([]byte, 512) // Sufficient size to detect MIME
 	if _, err := file.Read(buffer); err != nil && err != io.EOF {
 		return fmt.Errorf("error reading the file: %v", err)
@@ -39,6 +41,15 @@ func ValidateFile(file *os.File, filename string, maxSize int64) error {
 	mimeType := http.DetectContentType(buffer)
 	if mimeType == "application/x-msdownload" || mimeType == "application/x-sh" {
 		return fmt.Errorf("MIME type not allowed")
+	}
+
+	// Calculate and check the hash
+	fileHash, err := CalculateFileHash(file)
+	if err != nil {
+		return fmt.Errorf("error calculating file hash: %v", err)
+	}
+	if CheckHashExists(fileHash, uploadDir) {
+		return fmt.Errorf("duplicate file detected")
 	}
 
 	return nil

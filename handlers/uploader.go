@@ -43,10 +43,11 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validates the file
-	if err := utils.ValidateFile(tempFile, header.Filename, config.MaxFileSize); err != nil {
-		utils.HandleError(w, r, err.Error())
-		return
-	}
+  err = utils.ValidateFile(tempFile, header.Filename, config.MaxFileSize, "uploads")
+  if err != nil {
+    utils.HandleError(w, r, err.Error())
+    return
+  }
 
 	// Generates a unique path for the file
 	uniquePath, err := utils.GenerateRandomPath()
@@ -69,12 +70,13 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		utils.HandleError(w, r, "Error saving final file")
 		return
 	}
-
+  
 	// Schedules automatic deletion
 	time.AfterFunc(config.FileExpirationTime, func() {
 		os.Remove(uploadPath)
     log.Printf("%s Deleted", uploadPath)
 	})
 
+  log.Printf("File successfully uploaded with unique path: %s", uniquePath)
 	http.Redirect(w, r, "/"+uniquePath, http.StatusSeeOther)
 }
