@@ -21,7 +21,9 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /var/www/ubs
+          sudo git stash
           sudo git pull origin main
+          sudo git stash pop
           sudo systemctl stop ubs
           sudo rm main
           sudo go build main.go
