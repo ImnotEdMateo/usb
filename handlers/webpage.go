@@ -3,11 +3,14 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+  
+  "github.com/imnotedmateo/ubs/utils"
   "github.com/imnotedmateo/ubs/config"
 )
 
 func WebPageHandler(w http.ResponseWriter, r *http.Request) {
   theme := config.Theme
+  maxFileSizeReadable := utils.BytesToHumanReadable(config.MaxFileSize)
 
 	html := fmt.Sprintf(`
 	<!DOCTYPE html>
@@ -23,7 +26,7 @@ func WebPageHandler(w http.ResponseWriter, r *http.Request) {
 	  <body>
 	    <div class="wrapper">
 	      <h1><span class="initial">U</span>pload <span class="initial">B</span>ullshit in my <span class="initial">S</span>erver</h1> 
-	      <p>Temporary uploads less than 1Gb. made by <a href="http://edmateo.site">edmateo.site</a></p>
+        <p>Temporary uploads less than %s. Made by <a href="http://edmateo.site">edmateo.site</a></p>
 	      <div class="form-shit">
 	        <form action="/upload" method="post" enctype="multipart/form-data">
 	          <input type="file" name="file" id="file" required>
@@ -37,7 +40,7 @@ func WebPageHandler(w http.ResponseWriter, r *http.Request) {
 	      </p>
 	    </div>
 	  </body>
-	</html>`, theme)
+	</html>`, theme, maxFileSizeReadable)
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
