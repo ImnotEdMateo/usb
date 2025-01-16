@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ubs
+    image: usb
     ports:
       - "127.0.0.1:${UBS_PORT}:${UBS_PORT}"
     env_file:

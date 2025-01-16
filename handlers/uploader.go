@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/imnotedmateo/ubs/config"
-	"github.com/imnotedmateo/ubs/utils"
+	"github.com/imnotedmateo/usb/config"
+	"github.com/imnotedmateo/usb/utils"
 )
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {

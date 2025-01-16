@@ -1,4 +1,4 @@
-# Upload Bullshit in my Server
+# Upload Server for Bullshit
 
 This is a simple and lightweight self-hosted file uploader built with GoLang. UBS allows you to upload files temporarily to your server with a straightforward interface and no JavaScript requirements. Perfect for quick file sharing or temporary storage.
 
@@ -17,19 +17,19 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ImnotEdMateo/ubs.git
-   cd ubs
+   git clone https://github.com/ImnotEdMateo/usb.git
+   cd usb
    ```
 
 2. Build the application:
    ```bash
    export UBS_PORT=[your_port]
-   go build -o ubs
+   go build -o usb
    ```
 
 3. Run the server:
    ```bash
-   ./ubs
+   ./usb
    ```
 
 The server will run on `http://[your_vps_ip]:<your_port>` by default.
@@ -38,8 +38,8 @@ The server will run on `http://[your_vps_ip]:<your_port>` by default.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ImnotEdMateo/ubs.git
-   cd ubs
+   git clone https://github.com/ImnotEdMateo/usb.git
+   cd usb
    ```
 
 2. Create or modify the `.env` file with the following content:

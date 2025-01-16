@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
   
-  "github.com/imnotedmateo/ubs/utils"
-  "github.com/imnotedmateo/ubs/config"
+  "github.com/imnotedmateo/usb/utils"
+  "github.com/imnotedmateo/usb/config"
 )
 
 func WebPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -18,14 +18,14 @@ func WebPageHandler(w http.ResponseWriter, r *http.Request) {
 	  <head>
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <title>UBS by edmateo.site</title>
+	    <title>USB by edmateo.site</title>
 	    <link href="/static/index.css" rel="stylesheet">
 	    <link href="/static/themes/%s" rel="stylesheet">
 	    <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico">
 	  </head>
 	  <body>
 	    <div class="wrapper">
-	      <h1><span class="initial">U</span>pload <span class="initial">B</span>ullshit in my <span class="initial">S</span>erver</h1> 
+	      <h1><span class="initial">U</span>pload <span class="initial">S</span>erver for <span class="initial">B</span>ullshit</h1> 
         <p>Temporary uploads less than %s. Made by <a href="http://edmateo.site">edmateo.site</a></p>
 	      <div class="form-shit">
 	        <form action="/upload" method="post" enctype="multipart/form-data">

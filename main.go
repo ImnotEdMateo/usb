@@ -6,7 +6,7 @@ import (
   "log"
   "net/http"
 
-  "github.com/imnotedmateo/ubs/handlers"
+  "github.com/imnotedmateo/usb/handlers"
 )
 
 func main() {

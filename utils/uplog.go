@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/imnotedmateo/ubs/config"
+	"github.com/imnotedmateo/usb/config"
 	"log"
 	"net/http"
 )
