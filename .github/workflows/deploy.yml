@@ -24,7 +24,7 @@ jobs:
           sudo git stash
           sudo git pull origin main
           sudo git stash pop
-          sudo systemctl stop ubs
+          sudo systemctl stop usbUploader
           sudo rm main
           sudo go build main.go
           sudo systemctl start usbUploader
