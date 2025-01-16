@@ -20,11 +20,11 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /var/www/ubs
+          cd /var/www/usb
           sudo git stash
           sudo git pull origin main
           sudo git stash pop
           sudo systemctl stop ubs
           sudo rm main
           sudo go build main.go
-          sudo systemctl start ubs
+          sudo systemctl start usbUploader
