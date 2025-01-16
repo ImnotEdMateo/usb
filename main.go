@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-  port := os.Getenv("UBS_PORT")
+  port := os.Getenv("USB_PORT")
   if port == "" {
     log.Fatalf("PORT is not defined")
   }

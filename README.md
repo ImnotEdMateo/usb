@@ -1,6 +1,6 @@
 # Upload Server for Bullshit
 
-This is a simple and lightweight self-hosted file uploader built with GoLang. UBS allows you to upload files temporarily to your server with a straightforward interface and no JavaScript requirements. Perfect for quick file sharing or temporary storage.
+This is a simple and lightweight self-hosted file uploader built with GoLang. USB allows you to upload files temporarily to your server with a straightforward interface and no JavaScript requirements. Perfect for quick file sharing or temporary storage.
 
 ## Features
 
@@ -23,7 +23,7 @@ This is a simple and lightweight self-hosted file uploader built with GoLang. UB
 
 2. Build the application:
    ```bash
-   export UBS_PORT=[your_port]
+   export USB_PORT=[your_port]
    go build -o usb
    ```
 
@@ -44,7 +44,7 @@ The server will run on `http://[your_vps_ip]:<your_port>` by default.
 
 2. Create or modify the `.env` file with the following content:
    ```bash
-   UBS_PORT=[your_port]
+   USB_PORT=[your_port]
    ```
 
 3. Build and start the container using `docker-compose`:
@@ -76,7 +76,7 @@ The server will run on `http://[your_vps_ip]:<your_port>` by default.
 
 ## Limitations
 
-- UBS is designed for small-scale use and does not include advanced features like user authentication.
+- USB is designed for small-scale use and does not include advanced features like user authentication.
 - Files are accessible via public routes; handle sensitive data with caution.
 
 ## TO DO
