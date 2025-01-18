@@ -54,6 +54,5 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("Redirecting to: /%s/", dirPath)
 	http.Redirect(w, r, "/"+dirPath+"/", http.StatusSeeOther)
 }
