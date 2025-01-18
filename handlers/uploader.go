@@ -1,15 +1,13 @@
 package handlers
 
 import (
-	"io"
-	"log"
+  "io"
+  "os"
+  "log"
 	"net/http"
-	"os"
-	"path/filepath"
-	"time"
 
-	"github.com/imnotedmateo/usb/config"
 	"github.com/imnotedmateo/usb/utils"
+	"github.com/imnotedmateo/usb/config"
 )
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +16,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Gets the file from the form
+	// Get the file from the form
 	file, header, err := r.FormFile("file")
 	if err != nil {
 		utils.HandleError(w, r, "Error retrieving file from the form")
@@ -28,7 +26,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	utils.LogUpload(r, header.Filename)
 
-	// Temporarily saves the file in the system
+	// Temporarily save the file in the system
 	tempFile, err := os.CreateTemp("", "upload-*")
 	if err != nil {
 		utils.HandleError(w, r, "Error creating temporary file")
@@ -42,41 +40,20 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validates the file
-  err = utils.ValidateFile(tempFile, header.Filename, config.MaxFileSize, "uploads")
-  if err != nil {
-    utils.HandleError(w, r, err.Error())
-    return
-  }
-
-	// Generates a unique path for the file
-	uniquePath, err := utils.GenerateRandomPath()
+	// Validate the file
+	err = utils.ValidateFile(tempFile, header.Filename, config.MaxFileSize, "uploads")
 	if err != nil {
-		utils.HandleError(w, r, "Error generating final file")
+		utils.HandleError(w, r, err.Error())
 		return
 	}
 
-	// Creates the final file in the "uploads/" dir
-	uploadPath := filepath.Join("uploads", uniquePath)
-	dest, err := os.Create(uploadPath)
+	// Save the file using the modularized function
+	dirPath, err := utils.SaveUploadedFile(tempFile, header.Filename)
 	if err != nil {
-		utils.HandleError(w, r, "Error creating final file, maybe uploads/ does not exist.")
+		utils.HandleError(w, r, err.Error())
 		return
 	}
-	defer dest.Close()
 
-	// Copies the content of the temporary file to the final file
-	if _, err := io.Copy(dest, tempFile); err != nil {
-		utils.HandleError(w, r, "Error saving final file")
-		return
-	}
-  
-	// Schedules automatic deletion
-	time.AfterFunc(config.FileExpirationTime, func() {
-		os.Remove(uploadPath)
-    log.Printf("%s Deleted", uploadPath)
-	})
-
-  log.Printf("File successfully uploaded with unique path: %s", uniquePath)
-	http.Redirect(w, r, "/"+uniquePath, http.StatusSeeOther)
+	log.Printf("Redirecting to: /%s/", dirPath)
+	http.Redirect(w, r, "/"+dirPath+"/", http.StatusSeeOther)
 }

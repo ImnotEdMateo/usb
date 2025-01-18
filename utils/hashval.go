@@ -24,32 +24,34 @@ func CalculateFileHash(file *os.File) (string, error) {
 }
 
 func CheckHashExists(hash string, uploadDir string) bool {
-	files, err := os.ReadDir(uploadDir)
-	if err != nil {
-		fmt.Printf("Error reading directory: %v\n", err)
-		return false
-	}
+	err := filepath.Walk(uploadDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Printf("Error accessing path %q: %v\n", path, err)
+			return nil
+		}
 
-	for _, file := range files {
-		if !file.IsDir() {
-			filePath := filepath.Join(uploadDir, file.Name())
-			existingFile, err := os.Open(filePath)
+ 		// If it's a file, calculate its hash
+		if !info.IsDir() {
+			existingFile, err := os.Open(path)
 			if err != nil {
 				fmt.Printf("Error opening file: %v\n", err)
-				continue
+				return nil
 			}
 			defer existingFile.Close()
 
 			existingHash, err := CalculateFileHash(existingFile)
 			if err != nil {
-				fmt.Printf("Error calculating hash for existing file: %v\n", err)
-				continue
+				fmt.Printf("Error calculating hash for file %q: %v\n", path, err)
+				return nil 
 			}
 
+			// Compare hashes
 			if hash == existingHash {
-				return true
+				return fmt.Errorf("hash found")
 			}
 		}
-	}
-	return false
+		return nil
+	})
+
+	return err != nil && err.Error() == "hash found"
 }
