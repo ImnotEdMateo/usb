@@ -3,7 +3,6 @@ package handlers
 import (
   "io"
   "os"
-  "log"
 	"net/http"
 
 	"github.com/imnotedmateo/usb/utils"
