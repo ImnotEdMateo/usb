@@ -22,6 +22,7 @@ func main() {
 
   http.HandleFunc("/", handlers.FileOrPageHandler)
   http.HandleFunc("/upload", handlers.UploadHandler)
+  http.HandleFunc("/download/", handlers.DownloadHandler)
 
   if err := http.ListenAndServe(":"+port, nil); err != nil {
     log.Fatalf("Error starting server: %v", err)

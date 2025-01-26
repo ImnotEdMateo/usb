@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"html/template"
 	"mime"
 	"net/http"
 	"os"
@@ -12,79 +13,161 @@ import (
 	"github.com/imnotedmateo/usb/config"
 )
 
-func FileOrPageHandler(w http.ResponseWriter, r *http.Request) {
-	// Get the directory path from the URL (removes the leading and trailing slashes)
-	path := r.URL.Path[1:]
-	if len(path) > 0 && path[len(path)-1] == '/' {
-		path = path[:len(path)-1]
-	}
+const downloadTemplateStr = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.FileName}} - USB by edmateo.site</title>
+    <link href="/static/index.css" rel="stylesheet">
+    <link href="/static/themes/{{.Theme}}" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico">
+</head>
+<body>
+    <div class="wrapper">
+        <h1><span class="initial">U</span>pload <span class="initial">S</span>erver for <span class="initial">B</span>ullshit</h1>
+        <h2>File: {{.FileName}}</h2>
+        <p>This file cannot be displayed in the browser. You can download it using the link below:</p>
+        <div class="form-shit">
+          <form action="/download/{{.Path}}" method="get">
+            <input type="submit" value="DOWNLOAD">
+          </form>
+        </div>
+        <p>
+            <b>
+                <a href="https://github.com/ImnotEdMateo/ubs">SOURCE CODE</a>
+            </b>
+        </p>
+    </div>
+</body>
+</html>
+`
 
-	// Show the main page if there is no path
+func FileOrPageHandler(w http.ResponseWriter, r *http.Request) {
+	path := getSanitizedPath(r)
 	if path == "" {
 		WebPageHandler(w, r)
 		return
 	}
 
-	// Determine the valid pattern for the path
-	var validPathPattern string
-	if config.RandomPath == "GUID" {
-		validPathPattern = `^[a-f0-9\-]{36}$`
-	} else {
-		numChars, _ := strconv.Atoi(config.RandomPath)
-		validPathPattern = fmt.Sprintf(`^[a-zA-Z0-9]{%d}$`, numChars)
-	}
-
-	// Validate the path against the pattern
-	matched, err := regexp.MatchString(validPathPattern, path)
-	if err != nil || !matched {
+	if err := validatePath(path); err != nil {
 		http.NotFound(w, r)
 		return
 	}
 
-	// Build the full path to the directory
 	dirPath := filepath.Join("uploads", path)
-
-	// Check if the directory exists
-	dirInfo, err := os.Stat(dirPath)
-	if os.IsNotExist(err) || !dirInfo.IsDir() {
+	if err := validateDirectory(dirPath); err != nil {
 		http.NotFound(w, r)
 		return
 	}
 
-	// Look for files inside the directory
+	fileName, err := getFirstFileName(dirPath)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	mimeType := getMimeType(fileName)
+	if !isBrowserSupported(mimeType) {
+		renderDownloadTemplate(w, fileName, path)
+		return
+	}
+
+	serveFileInline(w, r, filepath.Join(dirPath, fileName), fileName, mimeType)
+}
+
+func getSanitizedPath(r *http.Request) string {
+	path := r.URL.Path[1:]
+	if len(path) > 0 && path[len(path)-1] == '/' {
+		path = path[:len(path)-1]
+	}
+	return path
+}
+
+func validatePath(path string) error {
+	pattern := getPathPattern()
+	matched, err := regexp.MatchString(pattern, path)
+	if err != nil || !matched {
+		return fmt.Errorf("invalid path")
+	}
+	return nil
+}
+
+func getPathPattern() string {
+	if config.RandomPath == "GUID" {
+		return `^[a-f0-9\-]{36}$`
+	}
+	numChars, _ := strconv.Atoi(config.RandomPath)
+	return fmt.Sprintf(`^[a-zA-Z0-9]{%d}$`, numChars)
+}
+
+func validateDirectory(dirPath string) error {
+	dirInfo, err := os.Stat(dirPath)
+	if err != nil || !dirInfo.IsDir() {
+		return fmt.Errorf("invalid directory")
+	}
+	return nil
+}
+
+func getFirstFileName(dirPath string) (string, error) {
 	files, err := os.ReadDir(dirPath)
 	if err != nil || len(files) == 0 {
-		http.NotFound(w, r)
-		return
+		return "", fmt.Errorf("no files found")
 	}
+	return files[0].Name(), nil
+}
 
-	// Take the first file inside the directory
-	fileName := files[0].Name()
-	filePath := filepath.Join(dirPath, fileName)
-
-	// Check if the file exists and is a regular file
-	fileInfo, err := os.Stat(filePath)
-	if err != nil || fileInfo.IsDir() {
-		http.NotFound(w, r)
-		return
-	}
-
-	// Get the MIME type of the file
+func getMimeType(fileName string) string {
 	ext := filepath.Ext(fileName)
 	mimeType := mime.TypeByExtension(ext)
 	if mimeType == "" {
-		// Detect the MIME type if not found by extension
-		mimeType = "application/octet-stream"
+		return "application/octet-stream"
 	}
+	return mimeType
+}
 
-	// Set headers
+func renderDownloadTemplate(w http.ResponseWriter, fileName, path string) {
+    tmpl, err := template.New("download").Parse(downloadTemplateStr)
+    if err != nil {
+        http.Error(w, "Error rendering template", http.StatusInternalServerError)
+        return
+    }
+
+    data := struct {
+        FileName string
+        Path     string
+        Theme    string
+    }{
+        FileName: fileName,
+        Path:     path,
+        Theme:    config.Theme,
+    }
+
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    tmpl.Execute(w, data)
+}
+
+func serveFileInline(w http.ResponseWriter, r *http.Request, filePath, fileName, mimeType string) {
 	w.Header().Set("Content-Disposition", fmt.Sprintf(`inline; filename="%s"`, fileName))
 	w.Header().Set("Content-Type", mimeType)
-
-	// If the file is not compatible with the browser, force download
-	if mimeType == "application/octet-stream" {
-		w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="%s"`, fileName))
-	}
-
 	http.ServeFile(w, r, filePath)
+}
+
+func isBrowserSupported(mimeType string) bool {
+	supportedTypes := map[string]bool{
+		"text/html":              true,
+		"text/plain":             true,
+		"text/css":               true,
+		"application/javascript": true,
+		"image/jpeg":             true,
+		"image/png":              true,
+		"image/gif":              true,
+		"image/svg+xml":          true,
+		"application/pdf":        true,
+		"video/mp4":              true,
+		"audio/mpeg":             true,
+		"audio/wav":              true,
+	}
+	return supportedTypes[mimeType]
 }
