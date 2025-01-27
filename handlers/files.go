@@ -28,9 +28,9 @@ const downloadTemplateStr = `
     <div class="wrapper">
         <h1><span class="initial">U</span>pload <span class="initial">S</span>erver for <span class="initial">B</span>ullshit</h1>
         <h2>File: {{.FileName}}</h2>
-        <p>This file cannot be displayed in the browser. You can download it using the link below:</p>
+        <p class="disclaimer">This file cannot be displayed in the browser. You can download here:</p>
         <div class="form-shit">
-          <form action="/download/{{.Path}}" method="get">
+          <form action="/download/{{.Path}}" method="get" class="download-form">
             <input type="submit" value="DOWNLOAD">
           </form>
         </div>

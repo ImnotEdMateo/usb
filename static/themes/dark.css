@@ -111,6 +111,18 @@ input[type="submit"]:hover {
   background-color: #98971a;
 }
 
+.disclaimer {
+  margin: 10px 10px;
+  font-size: small;
+}
+
+.download-form {
+  background-color: #1d2021;
+  border: none;
+  width: 40%;
+  padding: 10px 15px;
+}
+
 @media (max-width: 480px) {
   form {
     background-color: #1d2021;
