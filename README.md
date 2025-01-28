@@ -82,7 +82,7 @@ The server will run on `http://[your_vps_ip]:<your_port>` by default.
 ## TO DO
 
 - [x] Implement configurable themes from `config/settings.go`
-- [ ] Optimize file validation logic.
+- [ ] Solve [this](https://github.com/ImnotEdMateo/usb/issues/3)
 - [ ] Less shitty code
 
 ---
