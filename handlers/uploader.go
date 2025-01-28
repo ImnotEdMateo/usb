@@ -11,14 +11,14 @@ import (
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		utils.HandleError(w, r, "Method not Allowed")
+		utils.SeriousErrorResponse(w, r, "Method not Allowed")
 		return
 	}
 
 	// Get the file from the form
 	file, header, err := r.FormFile("file")
 	if err != nil {
-		utils.HandleError(w, r, "Error retrieving file from the form")
+    http.Error(w, "Error retrieving file from the form", http.StatusBadRequest)
 		return
 	}
 	defer file.Close()
@@ -28,28 +28,28 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	// Temporarily save the file in the system
 	tempFile, err := os.CreateTemp("", "upload-*")
 	if err != nil {
-		utils.HandleError(w, r, "Error creating temporary file")
+    http.Error(w, "Error creating temporary file", http.StatusBadRequest)
 		return
 	}
 	defer os.Remove(tempFile.Name())
 	defer tempFile.Close()
 
 	if _, err := io.Copy(tempFile, file); err != nil {
-		utils.HandleError(w, r, "Error saving temporary file")
+    http.Error(w, "Error creating temporary file", http.StatusBadRequest)
 		return
 	}
 
 	// Validate the file
 	err = utils.ValidateFile(tempFile, header.Filename, config.MaxFileSize, "uploads")
 	if err != nil {
-		utils.HandleError(w, r, err.Error())
+		utils.SeriousErrorResponse(w, r, err.Error())
 		return
 	}
 
 	// Save the file using the modularized function
 	dirPath, err := utils.SaveUploadedFile(tempFile, header.Filename)
 	if err != nil {
-		utils.HandleError(w, r, err.Error())
+    http.Error(w, "Error saving the file", http.StatusBadRequest)
 		return
 	}
 
