@@ -1,30 +1,27 @@
 package main
 
 import (
-  "os"
-  "fmt"
-  "log"
-  "net/http"
+	"log"
+	"net/http"
+	"os"
 
-  "github.com/imnotedmateo/usb/handlers"
+	"github.com/imnotedmateo/usb/handlers"
 )
 
 func main() {
-  port := os.Getenv("USB_PORT")
-  if port == "" {
-    log.Fatalf("PORT is not defined")
-  }
+	port := os.Getenv("USB_PORT")
+	if port == "" {
+		log.Fatal("PORT is not defined")
+	}
 
-  fmt.Println("Running server on http://127.0.0.1:"+port)
+	log.Printf("Running server on http://0.0.0.0:%s", port)
 
-  // Serve Static Files
+  // serve static files
   http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
+  
+	http.HandleFunc("/", handlers.FileOrPageHandler)
+	http.HandleFunc("/upload", handlers.UploadHandler)
+	http.HandleFunc("/download/", handlers.DownloadHandler)
 
-  http.HandleFunc("/", handlers.FileOrPageHandler)
-  http.HandleFunc("/upload", handlers.UploadHandler)
-  http.HandleFunc("/download/", handlers.DownloadHandler)
-
-  if err := http.ListenAndServe(":"+port, nil); err != nil {
-    log.Fatalf("Error starting server: %v", err)
-  }
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
