@@ -47,9 +47,9 @@ The server will run on `http://[your_vps_ip]:<your_port>` by default.
    USB_PORT=[your_port]
    ```
 
-3. Build and start the container using `docker-compose`:
+3. Build and start the container using `docker compose`:
    ```bash
-   docker-compose up --build -d
+   docker compose up --build -d
    ```
 
 4. The application will be available at `[your_vps_ip]:<port>`. 
