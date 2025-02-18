@@ -11,7 +11,7 @@ import (
 func main() {
 	port := os.Getenv("USB_PORT")
 	if port == "" {
-		log.Fatal("PORT is not defined")
+		log.Fatal("USB_PORT is not defined")
 	}
 
 	log.Printf("Running server on http://0.0.0.0:%s", port)
