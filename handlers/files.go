@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+  "strings"
 	"strconv"
 
 	"github.com/imnotedmateo/usb/config"
@@ -155,19 +156,24 @@ func serveFileInline(w http.ResponseWriter, r *http.Request, filePath, fileName,
 }
 
 func isBrowserSupported(mimeType string) bool {
-	supportedTypes := map[string]bool{
-		"text/html":              true,
-		"text/plain":             true,
-		"text/css":               true,
-		"application/javascript": true,
-		"image/jpeg":             true,
-		"image/png":              true,
-		"image/gif":              true,
-		"image/svg+xml":          true,
-		"application/pdf":        true,
-		"video/mp4":              true,
-		"audio/mpeg":             true,
-		"audio/wav":              true,
-	}
-	return supportedTypes[mimeType]
+  if sep := strings.Index(mimeType, ";"); sep != -1 {
+      mimeType = mimeType[:sep]
+  }
+  supportedTypes := map[string]bool{
+      "text/html":              true,
+      "text/plain":             true,
+      "text/css":               true,
+      "image/jpeg":             true,
+      "image/png":              true,
+      "image/gif":              true,
+      "image/svg+xml":          true,
+      "application/pdf":        true,
+      "video/mp4":              true,
+      "video/webm":             true,
+      "audio/mpeg":             true,
+      "audio/wav":              true,
+      "audio/ogg":              true,
+      "application/javascript": false,
+  }
+  return supportedTypes[mimeType]
 }
