@@ -1,66 +1,47 @@
-@font-face {
-  font-family: 'Hack';
-  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-regular.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-regular.woff?sha=3114f1256') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hack';
-  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bold.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bold.woff?sha=3114f1256') format('woff');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hack';
-  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-italic.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-italic.woff?sha=3114f1256') format('woff');
-  font-weight: 400;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'Hack';
-  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bolditalic.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bolditalic.woff?sha=3114f1256') format('woff');
-  font-weight: 700;
-  font-style: italic;
-}
-
-:root {
-  --color-bg: #1d2021;
-  --color-txt: #ebdbb2;
-  --color-link: #83a598;
-  --color-link-hover: #458588;
-  --color-selection-bg: #655c54;
-  --color-selection-txt: #e6d6ae;
-  --color-initial: #fabd2f;
-}
-
 body {
-  font-family: Hack;
-  background-color: var(--color-bg);
-  color: var(--color-txt);
+  font-family: 'Seoge UI', sans-serif;
+  background: #1d2021;
+  color: #fbf1c7;
+}
+
+/* Shitty CRT effect */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background:
+    linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%),
+    linear-gradient(90deg, rgba(255,0,0,0.06), rgba(0,255,0,0.02), rgba(0,0,255,0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 999;
 }
 
 ::selection {
-  color: var(--color-selection-txt);
-  background-color: var(--color-selection-bg);
+  background-color: #655c54;
+  color: #e6d6ae;
+}
+
+a:hover {
+  text-decoration: underline !important;
 }
 
 a,
 a:visited {
-  color: var(--color-link);
-  text-decoration-line: none;
+  color: #83a598;
+  text-decoration: none;
 }
 
+a:hover,
 a:hover {
-  color: var(--color-link-hover);
-  text-decoration-line: underline;
-  font-style: italic;
+  color: #458588;
 }
 
 .initial {
-  color: var(--color-initial)
+  color: #fabd2f
 }
 
 .form-shit {

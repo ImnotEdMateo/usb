@@ -1,0 +1,133 @@
+@font-face {
+  font-family: 'Hack';
+  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-regular.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-regular.woff?sha=3114f1256') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bold.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bold.woff?sha=3114f1256') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-italic.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-italic.woff?sha=3114f1256') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bolditalic.woff2?sha=3114f1256') format('woff2'), url('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/fonts/hack-bolditalic.woff?sha=3114f1256') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+
+:root {
+  --color-bg: #1d2021;
+  --color-txt: #ebdbb2;
+  --color-link: #83a598;
+  --color-link-hover: #458588;
+  --color-selection-bg: #655c54;
+  --color-selection-txt: #e6d6ae;
+  --color-initial: #fabd2f;
+}
+
+body {
+  font-family: Hack;
+  background-color: var(--color-bg);
+  color: var(--color-txt);
+}
+
+::selection {
+  color: var(--color-selection-txt);
+  background-color: var(--color-selection-bg);
+}
+
+a,
+a:visited {
+  color: var(--color-link);
+  text-decoration-line: none;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration-line: underline;
+  font-style: italic;
+}
+
+.initial {
+  color: var(--color-initial)
+}
+
+.form-shit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+form {
+  background-color: #282828;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid #504945;
+}
+
+input[type="file"] {
+  border: 2px dashed #665c54;
+  border-radius: 4px;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: #ebdbb2;
+  background-color: #32302f;
+}
+
+input[type="file"]:hover {
+  border-color: #b8bb26;
+  background-color: #3c3836;
+}
+
+input[type="submit"] {
+  background-color: #b8bb26;
+  color: #1d2021; /* fg0 */
+  border: none;
+  padding: 0.75rem 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #98971a;
+}
+
+.disclaimer {
+  margin: 10px 10px;
+  font-size: small;
+}
+
+.download-form {
+  background-color: #1d2021;
+  border: none;
+  width: 40%;
+  padding: 10px 15px;
+}
+
+@media (max-width: 480px) {
+  form {
+    background-color: #1d2021;
+    border: none;
+    width: 90%;
+    padding: 0;
+  }
+}
