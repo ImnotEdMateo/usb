@@ -1,12 +1,13 @@
 package handlers
 
 import (
-  "io"
-  "os"
+	"io"
 	"net/http"
+	"os"
 
-	"github.com/imnotedmateo/usb/utils"
 	"github.com/imnotedmateo/usb/config"
+	"github.com/imnotedmateo/usb/storage"
+	"github.com/imnotedmateo/usb/utils"
 )
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -23,7 +24,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
-	utils.LogUpload(r, header.Filename)
+	utils.LogUpload(r, header.Filename, config.Doxxing)
 
 	// Temporarily save the file in the system
 	tempFile, err := os.CreateTemp("", "upload-*")
@@ -47,7 +48,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Save the file using the modularized function
-	dirPath, err := utils.SaveUploadedFile(tempFile, header.Filename)
+	dirPath, err := storage.SaveUploadedFile(tempFile, header.Filename)
 	if err != nil {
     http.Error(w, "Error saving the file", http.StatusBadRequest)
 		return

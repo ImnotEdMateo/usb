@@ -9,12 +9,11 @@ import (
 	"time"
 
 	"github.com/imnotedmateo/usb/config"
-	"github.com/imnotedmateo/usb/utils"
 )
 
 func SaveUploadedFile(file *os.File, filename string) (string, error) {
 	// Generate a unique path for the directory
-	uniquePath, err := utils.GenerateRandomPath()
+	uniquePath, err := GenerateRandomPath()
 	if err != nil {
 		return "", fmt.Errorf("error generating unique directory path")
 	}
