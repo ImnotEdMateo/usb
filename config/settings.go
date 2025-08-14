@@ -4,10 +4,10 @@ import (
 	"log"
 	"time"
 
+	"github.com/imnotedmateo/usb/utils" // importa utils
 	"gopkg.in/ini.v1"
 )
 
-// Variables que se llenarán desde el .ini
 var (
 	MaxFileSize        int64
 	FileExpirationTime time.Duration
@@ -19,11 +19,25 @@ var (
 func LoadConfig(path string) {
 	cfg, err := ini.Load(path)
 	if err != nil {
-		log.Fatalf("Error cargando config: %v", err)
+		log.Fatalf("Error loading config file: %v", err)
 	}
 
-	MaxFileSize = cfg.Section("").Key("MaxFileSize").MustInt64(1 << 30)
-	FileExpirationTime = time.Duration(cfg.Section("").Key("FileExpirationTimeHours").MustInt(1)) * time.Hour
+	// MaxFileSize desde .ini
+	sizeStr := cfg.Section("").Key("MaxFileSize").MustString("1GB")
+	sizeBytes, err := utils.HumanReadableToBytes(sizeStr)
+	if err != nil {
+		log.Fatalf("Error in MaxFileSize: %v", err)
+	}
+	MaxFileSize = sizeBytes
+
+	// FileExpirationTime desde .ini
+	durationStr := cfg.Section("").Key("FileExpirationTime").MustString("1h")
+	duration, err := time.ParseDuration(durationStr)
+	if err != nil {
+		log.Fatalf("Error in FileExpirationTime: %v", err)
+	}
+	FileExpirationTime = duration
+
 	Doxxing = cfg.Section("").Key("Doxxing").MustBool(false)
 	Theme = cfg.Section("").Key("Theme").MustString("cidoku.css")
 	RandomPath = cfg.Section("").Key("RandomPath").MustString("GUID")

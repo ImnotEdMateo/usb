@@ -3,14 +3,14 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-  
-  "github.com/imnotedmateo/usb/utils"
-  "github.com/imnotedmateo/usb/config"
+
+	"github.com/imnotedmateo/usb/config"
+	"github.com/imnotedmateo/usb/utils"
 )
 
 func WebPageHandler(w http.ResponseWriter, r *http.Request) {
   theme := config.Theme
-  maxFileSizeReadable := utils.BytesToHumanReadable(int(config.MaxFileSize))
+  maxFileSize := utils.BytesToHumanReadable(config.MaxFileSize)
 
 	html := fmt.Sprintf(`
 	<!DOCTYPE html>
@@ -40,7 +40,7 @@ func WebPageHandler(w http.ResponseWriter, r *http.Request) {
 	      </p>
 	    </div>
 	  </body>
-	</html>`, theme, maxFileSizeReadable)
+	</html>`, theme, maxFileSize)
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
