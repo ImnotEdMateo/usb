@@ -6,9 +6,11 @@ import (
 	"os"
 
 	"github.com/imnotedmateo/usb/handlers"
+	"github.com/imnotedmateo/usb/config"
 )
 
 func main() {
+	config.LoadConfig("config.ini")
 	port := os.Getenv("USB_PORT")
 	if port == "" {
 		log.Fatal("USB_PORT is not defined")

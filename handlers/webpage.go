@@ -10,7 +10,7 @@ import (
 
 func WebPageHandler(w http.ResponseWriter, r *http.Request) {
   theme := config.Theme
-  maxFileSizeReadable := utils.BytesToHumanReadable(config.MaxFileSize)
+  maxFileSizeReadable := utils.BytesToHumanReadable(int(config.MaxFileSize))
 
 	html := fmt.Sprintf(`
 	<!DOCTYPE html>
