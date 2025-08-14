@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /var/www/usb
+          cd /srv/www/usb
           sudo git stash
           sudo git pull origin main
           sudo git stash pop
