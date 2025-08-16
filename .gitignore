@@ -2,4 +2,4 @@ main
 /uploads/*
 !/uploads/
 .env
-config.ini
+setttings.ini
