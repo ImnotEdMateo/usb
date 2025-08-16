@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	config.LoadConfig("config.ini")
+	config.LoadConfig("settings.ini")
 	port := os.Getenv("USB_PORT")
 	if port == "" {
 		log.Fatal("USB_PORT is not defined")
